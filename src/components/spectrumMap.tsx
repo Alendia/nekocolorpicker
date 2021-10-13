@@ -30,7 +30,6 @@ const SpectrumMap: React.FC<Transmission> = (props) => {
     const spectrumCanvasLeft = spectrumCanvas.offsetLeft + spectrumCanvas.clientLeft;
     const spectrumCanvasTop = spectrumCanvas.offsetTop + spectrumCanvas.clientTop;
     setSpectrumCanvasPosition([spectrumCanvasLeft, spectrumCanvasTop]);
-    console.log("spectrumCanvasLeft", spectrumCanvasLeft, "spectrumCanvasTop", spectrumCanvasTop);
   }, [props.hue]);
 
   const handleClick = useCallback(

@@ -6,6 +6,7 @@ import SpectrumMap from "./components/spectrumMap";
 const App: React.FC = () => {
   const [hueCanvasClickPoint, setHueCanvasClickPoint] = useState(0);
   const [spectrumCanvasClickPoint, setSpectrumCanvasClickPoint] = useState([0, 0]);
+  const [hue, setHue] = useState("FFFFFF");
 
   const getHue = (y: number) => {
     const hueArea = Math.trunc(y / 40);
@@ -37,8 +38,8 @@ const App: React.FC = () => {
   const getColor = (x: number, y: number, hue: string) => {
     const whiteProportion = x / 100;
     const blackProportion = 1 - y / 100;
-    console.log("whitePorpotion:", whiteProportion);
-    console.log("blackPorpotion:", blackProportion);
+    console.log("whiteProportion:", whiteProportion);
+    console.log("blackProportion:", blackProportion);
     let [RStr, GStr, BStr] = hue.match(/.{1,2}/gi) ?? [];
     console.log(RStr, GStr, BStr);
     const [R, G, B] = [RStr, GStr, BStr].map((valueStr) => {
@@ -58,7 +59,6 @@ const App: React.FC = () => {
     console.log("Y:", e.pageY, "position", hueCanvasPosition);
     setHueCanvasClickPoint(y);
     console.log("y", y);
-    e.stopPropagation();
     e.preventDefault();
   }, []);
 
@@ -70,23 +70,56 @@ const App: React.FC = () => {
       const y = e.pageY - spectrumCanvasPosition[1];
       console.log("x", x, "y", y);
       setSpectrumCanvasClickPoint([x, y]);
-      e.stopPropagation();
       e.preventDefault();
     },
     []
   );
 
+  const handleChange = (hex: string) => {
+    // validity check
+    if (!/^([A-Fa-f0-9]{3}([A-Fa-f0-9]{3})?)$/.test(hex)) return;
+    console.log(hex);
+    if (hex.length === 3) {
+      hex = hex + hex;
+    }
+    const hue = hex2Hue(hex);
+    setHue(hue);
+  };
+
+  const hex2Hue = (hex: string) => {
+    console.log("======Input change======");
+    let [RStr, GStr, BStr] = hex.match(/.{1,2}/gi) ?? [];
+    // tranfer to RGB number
+    const [ROriginal, GOriginal, BOriginal] = [RStr, GStr, BStr].map((valueStr) => {
+      return Number.parseInt(valueStr, 16);
+    });
+    console.log("RGB", ROriginal, GOriginal, BOriginal);
+
+    const cmax = Math.max(ROriginal, GOriginal, BOriginal);
+    const cmin = Math.min(ROriginal, GOriginal, BOriginal);
+    const [R, G, B] = [ROriginal, GOriginal, BOriginal].map((k) => {
+      let result = Math.round(((k - cmin) / (cmax - cmin)) * 255).toString(16);
+      return (result = result.length === 1 ? "0" + result : result);
+    });
+    console.log(R, G, B);
+    console.log("======Input change======");
+    return [R, G, B].join("");
+  };
+
   const color = getColor(spectrumCanvasClickPoint[0], spectrumCanvasClickPoint[1], getHue(hueCanvasClickPoint));
+  const hueValue = getHue(hueCanvasClickPoint);
   return (
     <div className="app">
       <HueMap onClick={(e, hueCanvasPosition) => onHueMapClick(e, hueCanvasPosition)} />
       <SpectrumMap
         onClick={(e, spectrumCanvasPosition) => onSpectrumMapClick(e, spectrumCanvasPosition)}
-        hue={getHue(hueCanvasClickPoint)}
+        hue={hueValue}
       />
-      <p className="color-info">{getHue(hueCanvasClickPoint)}</p>
-      <p className="color-info">{color}</p>
+      <p className="color-info">hue:{hueValue}</p>
+      <p className="color-info">color:{color}</p>
       <div className="palette" style={{ backgroundColor: `#${color}` }}></div>
+      <label>#</label>
+      <input type="text" maxLength={6} onChange={(e) => handleChange(e.target.value)}></input>
     </div>
   );
 };

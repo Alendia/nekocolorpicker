@@ -28,7 +28,6 @@ const HueMap: React.FC<Transmission> = (props) => {
     (ctx as CanvasRenderingContext2D).fillRect(0, 0, 20, 240);
     const hueCanvasTop = hueCanvas.offsetTop + hueCanvas.clientTop;
     setHueCanvasPosition(hueCanvasTop);
-    console.log("hueCanvasTop", hueCanvasTop);
   }, []);
 
   const handleClick = useCallback((e: React.MouseEvent<HTMLCanvasElement, MouseEvent>, hueCanvasPosition: number) => {

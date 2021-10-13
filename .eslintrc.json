@@ -20,8 +20,22 @@
     "import/no-unresolved": [2, { "caseSensitive": false, "ignore": [".svg$"] }],
     "no-use-before-define": "off",
     "import/extensions": ["error", "never"],
-    "arrow-body-style": ["error", "always"],
-    "react/jsx-fragments": ["enabled", "mode"]
+    "arrow-body-style": ["error", "as-needed"],
+    "react/jsx-fragments": [1, "syntax"],
+    "no-console": "off",
+    "no-return-assign": "off",
+    "max-len": ["error", { "code": 120 }],
+    "react/self-closing-comp": ["error", { "component": false, "html": false }],
+    "comma-dangle": [
+      "error",
+      { "arrays": "never", "objects": "never", "imports": "never", "exports": "never", "functions": "never" }
+    ],
+    "react/jsx-closing-tag-location": "off",
+    "jsx-a11y/label-has-associated-control": "off",
+    "object-curly-newline": ["error", "never"],
+    "no-unused-vars": "off",
+    "no-shadow": "off",
+    "react/destructuring-assignment": ["error", "never"]
   },
   "settings": {
     "import/resolver": "webpack"

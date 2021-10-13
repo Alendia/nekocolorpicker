@@ -15,13 +15,13 @@ const SpectrumMap: React.FC<Transmission> = (props) => {
     if (spectrumCanvas === null) return;
     const ctx = spectrumCanvas.getContext("2d");
 
-    let whiteGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 0, 100, 0);
+    const whiteGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 0, 100, 0);
     whiteGradient.addColorStop(0, "#FFFFFF");
     whiteGradient.addColorStop(1, `#${props.hue}`);
     (ctx as CanvasRenderingContext2D).fillStyle = whiteGradient;
     (ctx as CanvasRenderingContext2D).fillRect(0, 0, 100, 100);
 
-    let blackGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 100, 0, 0);
+    const blackGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 100, 0, 0);
     blackGradient.addColorStop(0, "#000000");
     blackGradient.addColorStop(1, "transparent");
     (ctx as CanvasRenderingContext2D).fillStyle = blackGradient;

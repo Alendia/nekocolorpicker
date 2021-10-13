@@ -14,8 +14,8 @@ const HueMap: React.FC<Transmission> = (props) => {
     const hueCanvas = hueCanvasRef.current;
     if (hueCanvas === null) return;
     const ctx = hueCanvas.getContext("2d");
-    
-    let hueGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 0, 0, 240);
+
+    const hueGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 0, 0, 240);
     hueGradient.addColorStop(0, "#FF0000");
     hueGradient.addColorStop(1 / 6, "#FF00FF");
     hueGradient.addColorStop(2 / 6, "#0000FF");

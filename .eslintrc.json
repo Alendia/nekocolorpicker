@@ -35,7 +35,8 @@
     "object-curly-newline": ["error", "never"],
     "no-unused-vars": "off",
     "no-shadow": "off",
-    "react/destructuring-assignment": ["error", "never"]
+    "react/destructuring-assignment": ["error", "never"],
+    "default-case": "off"
   },
   "settings": {
     "import/resolver": "webpack"

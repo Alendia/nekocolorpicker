@@ -39,8 +39,8 @@ const getHue = (y: number) => {
  */
 
 const getColor = (x: number, y: number, hue: string) => {
-  const whiteProportion = x / 100;
-  const blackProportion = 1 - y / 100;
+  const whiteProportion = x / 200;
+  const blackProportion = 1 - y / 200;
   console.log("whiteProportion:", whiteProportion);
   console.log("blackProportion:", blackProportion);
   const [RStr, GStr, BStr] = hue.match(/.{1,2}/gi) ?? [];
@@ -84,4 +84,21 @@ const hex2Hue = (hex: string) => {
   return [R, G, B].join("");
 };
 
-export { getHue, getColor, hex2Hue };
+/**
+ * Get hex color string from input RGB string array
+ * @param {string[]} RGB string array from input
+ * @returns {string} hex string (6 digits)
+ */
+
+const RGB2hex = (RGB: string[]) => {
+  console.log("======Input Start======");
+  const [R, G, B] = RGB.map((value) => {
+    const valueNum = Number(value).toString(16);
+    return `${valueNum}`.length === 1 ? `0${valueNum}` : valueNum;
+  });
+  console.log(R, G, B);
+  console.log("======Input End======");
+  return [R, G, B].join("");
+};
+
+export { getHue, getColor, hex2Hue, RGB2hex };

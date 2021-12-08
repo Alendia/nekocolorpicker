@@ -15,17 +15,17 @@ const SpectrumMap: React.FC<Transmission> = (props) => {
     if (spectrumCanvas === null) return;
     const ctx = spectrumCanvas.getContext("2d");
 
-    const whiteGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 0, 100, 0);
+    const whiteGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 0, 200, 0);
     whiteGradient.addColorStop(0, "#FFFFFF");
     whiteGradient.addColorStop(1, `#${props.hue}`);
     (ctx as CanvasRenderingContext2D).fillStyle = whiteGradient;
-    (ctx as CanvasRenderingContext2D).fillRect(0, 0, 100, 100);
+    (ctx as CanvasRenderingContext2D).fillRect(0, 0, 200, 200);
 
-    const blackGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 100, 0, 0);
+    const blackGradient = (ctx as CanvasRenderingContext2D).createLinearGradient(0, 200, 0, 0);
     blackGradient.addColorStop(0, "#000000");
     blackGradient.addColorStop(1, "transparent");
     (ctx as CanvasRenderingContext2D).fillStyle = blackGradient;
-    (ctx as CanvasRenderingContext2D).fillRect(0, 0, 100, 100);
+    (ctx as CanvasRenderingContext2D).fillRect(0, 0, 200, 200);
 
     const spectrumCanvasLeft = spectrumCanvas.offsetLeft + spectrumCanvas.clientLeft;
     const spectrumCanvasTop = spectrumCanvas.offsetTop + spectrumCanvas.clientTop;
@@ -42,8 +42,8 @@ const SpectrumMap: React.FC<Transmission> = (props) => {
   return (
     <canvas
       id="spectrum-map"
-      width="100"
-      height="100"
+      width="200"
+      height="200"
       ref={spectrumCanvasRef}
       onClick={(e) => handleClick(e, spectrumCanvasPosition)}
     ></canvas>

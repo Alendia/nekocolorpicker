@@ -7,8 +7,8 @@
 const getHue = (y: number) => {
   const hueArea = Math.trunc(y / 40);
   const positionInHueArea = y / 40 - Math.trunc(y / 40);
-  let positionPositive = Math.floor(positionInHueArea * 256).toString(16);
-  let positionNegative = Math.floor((1 - positionInHueArea) * 256).toString(16);
+  let positionPositive = Math.floor(positionInHueArea * 255).toString(16);
+  let positionNegative = Math.floor((1 - positionInHueArea) * 255).toString(16);
   // add zero
   positionPositive = positionPositive.length === 1 ? `0${positionPositive}` : positionPositive;
   positionNegative = positionNegative.length === 1 ? `0${positionNegative}` : positionNegative;
@@ -101,4 +101,15 @@ const RGB2hex = (RGB: string[]) => {
   return [R, G, B].join("");
 };
 
-export { getHue, getColor, hex2Hue, RGB2hex };
+/**
+ * Get RGB string array from hex input's change or click change to hex string
+ * @param {string} hex string from click or input
+ * @returns {string[]} RGB string array
+ */
+
+const hex2RGB = (hex: string) => {
+  const [RStr, GStr, BStr] = hex.match(/.{1,2}/gi) ?? [];
+  return [RStr, GStr, BStr].map((value) => `${parseInt(value, 16)}`);
+};
+
+export { getHue, getColor, hex2Hue, RGB2hex, hex2RGB };

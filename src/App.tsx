@@ -10,6 +10,8 @@ const App: React.FC = () => {
   const [spectrumCanvasClickPoint, setSpectrumCanvasClickPoint] = useState([0, 0]);
   const [hue, setHue] = useState("FF0000");
   const [color, setColor] = useState("transparent");
+  const [exchangeRGBColor, setExchangeRGBColor] = useState("transparent");
+  const [exchangeHexColor, setExchangeHexColor] = useState("transparent");
 
   const onHueMapClick = useCallback((e: React.MouseEvent<HTMLCanvasElement, MouseEvent>, hueCanvasPosition: number) => {
     // get click point position
@@ -36,7 +38,12 @@ const App: React.FC = () => {
     []
   );
 
-  const handleInputChange = (transferredHue: string, hexStr: string) => {
+  const handleInputChange = (transferredHue: string, hexStr: string, inputType: "RGB" | "Hex") => {
+    if (inputType === "RGB") {
+      setExchangeHexColor(hexStr);
+    } else if (inputType === "Hex") {
+      setExchangeRGBColor(hexStr);
+    }
     setHue(transferredHue);
     setColor(hexStr);
   };
@@ -45,6 +52,9 @@ const App: React.FC = () => {
     const colorStr = getColor(spectrumCanvasClickPoint[0], spectrumCanvasClickPoint[1], hue);
     console.log(colorStr);
     setColor(colorStr);
+    // click changes input value
+    setExchangeHexColor(colorStr);
+    setExchangeRGBColor(colorStr);
   }, [spectrumCanvasClickPoint]);
 
   return (
@@ -53,10 +63,12 @@ const App: React.FC = () => {
         <HueMap onClick={(e, hueCanvasPosition) => onHueMapClick(e, hueCanvasPosition)} />
         <SpectrumMap hue={hue} onClick={(e, spectrumCanvasPosition) => onSpectrumMapClick(e, spectrumCanvasPosition)} />
         <HexColorInput
-          onChange={(transferredHue, transferredHex) => handleInputChange(transferredHue, transferredHex)}
+          exchangeColor={exchangeHexColor}
+          onChange={(transferredHue, transferredHex) => handleInputChange(transferredHue, transferredHex, "Hex")}
         />
         <RGBColorInput
-          onChange={(transferredHue, transferredHex) => handleInputChange(transferredHue, transferredHex)}
+          exchangeColor={exchangeRGBColor}
+          onChange={(transferredHue, transferredHex) => handleInputChange(transferredHue, transferredHex, "RGB")}
         />
       </div>
       <div className="palette" style={{ backgroundColor: `#${color}` }}></div>

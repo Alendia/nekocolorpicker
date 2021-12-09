@@ -1,18 +1,21 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { hex2Hue, RGB2hex } from "../util/color";
+import { hex2Hue, hex2RGB, RGB2hex } from "../util/color";
 
 interface HexInputProps {
+  exchangeColor: string;
   onChange: (transferredHue: string, transferredHex: string) => void;
 }
 
 interface RGBInputProps {
+  exchangeColor: string;
   onChange: (transferredHue: string, transferredHex: string) => void;
 }
 
 const HexColorInput: React.FC<HexInputProps> = (props) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState("ff0000");
 
   const handleInputChange = useCallback((hex: string) => {
+    console.log("input change");
     // tranform this input element into a controlled component
     setInputValue(hex);
     // validity check
@@ -26,6 +29,13 @@ const HexColorInput: React.FC<HexInputProps> = (props) => {
     const transferredHue = hex2Hue(hexStr);
     props.onChange(transferredHue, hexStr);
   }, []);
+
+  useEffect(() => {
+    if (props.exchangeColor !== "transparent") {
+      console.log("trigger useEffect");
+      setInputValue(props.exchangeColor);
+    }
+  }, [props.exchangeColor]);
 
   return (
     <div className="color-input">
@@ -46,14 +56,6 @@ const RGBColorInput: React.FC<RGBInputProps> = (props) => {
   const [R, setR] = useState("255");
   const [G, setG] = useState("0");
   const [B, setB] = useState("0");
-
-  // const handleInputChange = useCallback(() => {
-  //   console.log(R, G, B);
-  //   if (/^[0-9]$/.test(R) || /^[0-9]$/.test(G) || /^[0-9]$/.test(B)) return;
-  //   const transferredHex = RGB2hex([R, G, B]);
-  //   const transferredHue = hex2Hue(transferredHex);
-  //   props.onChange(transferredHue, transferredHex);
-  // }, []);
 
   const handleInputTypingChange = useCallback((singleColor: string, colorName: "R" | "G" | "B") => {
     const setColor = (colorValue: string, colorName: "R" | "G" | "B") => {
@@ -88,10 +90,18 @@ const RGBColorInput: React.FC<RGBInputProps> = (props) => {
     handleInputTypingChange(G, "G");
     handleInputTypingChange(B, "B");
     const transferredHex = RGB2hex([R, G, B]);
-    console.log("toHex", transferredHex);
     const transferredHue = hex2Hue(transferredHex);
     props.onChange(transferredHue, transferredHex);
   }, [R, G, B]);
+
+  useEffect(() => {
+    if (props.exchangeColor !== "transparent") {
+      const [R, G, B] = hex2RGB(props.exchangeColor);
+      setR(R);
+      setG(G);
+      setB(B);
+    }
+  }, [props.exchangeColor]);
 
   return (
     <div className="color-input">
